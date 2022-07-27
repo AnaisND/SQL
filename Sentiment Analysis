@@ -1,0 +1,39 @@
+CREATE TABLE elvis_film_reviews (
+  id_review INT,
+  username_reviewer VARCHAR(50) NOT NULL,
+  date_review DATE,
+  review VARCHAR(300),
+  PRIMARY KEY(id_review)
+);
+
+INSERT INTO elvis_film_reviews VALUES(0, "Jonathan Romney", "2022-07-07", "Elvis is hyperbolic, one-dimensional and ludicrous – but as high-excess cinematic myth-making, it’s good.");
+INSERT INTO elvis_film_reviews VALUES(1, "Todd Gilchrist", "2022-07-05", "Luhrmann's fast-cutting super-montage style overpowers the subject matter, and the result is good; it's an impressionistic, jumbled highlight reel of Presley’s many accomplishments, despite vivid recreations by actor Austin Butler as The King.");
+INSERT INTO elvis_film_reviews VALUES(2, "Ty Burr", "2022-07-01", "Baz Luhrmann turns the life of Elvis Aaron Presley into a three-ring circus with more sensation than sense in Elvis. It's bad.");
+INSERT INTO elvis_film_reviews VALUES(3, "Adam Mullins-Khatib", "2022-07-02", "Flashes of color, lightning cuts, and the camera spins and needle drops are at times overwhelming, but it’s an overall good experience that washes over you in waves of excitement.");
+INSERT INTO elvis_film_reviews VALUES(4, "Dwight Brown", "2022-06-30", "Baz Luhrmann photobombs this Elvis portrait with over-extravagant filmmaking that dwarfs the iconic rock and roller. That ain’t easy but the movies is pretty bad.");
+INSERT INTO elvis_film_reviews VALUES(5, "Jack Hamilton", "2022-06-28", "The most anachronistic element of Elvis is its cloying need to assure us that its hero was a good person, as if trying to preemptively counter some imagined onslaught of TikToks about why Elvis Presley is problematic. This movie is bad.");
+INSERT INTO elvis_film_reviews VALUES(6, "Cameron Meier", "2022-07-24", "“Wise men say only fools rush in,” Elvis Presley sang. Director Baz Luhrmann should have taken those words to heart, as almost all he does in Elvis, his new whirlwind of a musical bio-pic, is rush. The movies is bad.");
+INSERT INTO elvis_film_reviews VALUES(7, "Matthew Pejkovic", "2022-07-24", "Butler commands the screen with good primal raw superstardom that comes across once a generation.");
+INSERT INTO elvis_film_reviews VALUES(8, "Marie Asner", "2022-07-21", "I am sure when Oscar nomination time comes, there will be nominations here for Austin Butler and Tom Hanks and the soundtrack.");
+INSERT INTO elvis_film_reviews VALUES(9, "George Elkind", "2022-07-21", "Elvis manifests all its action as inevitable, a remembered history that seems to have never breathed as living present: a most unquestioning sort of remembrance.");
+
+SELECT * FROM elvis_film_reviews;
+--Queries performed in order to do a Sentiment Analysis on this inserted data from rottentomatoes.com:
+
+--Find all the reviewers that left positive/negative reviews +count them.
+
+SELECT username_reviewer AS Reviewer
+FROM elvis_film_reviews
+WHERE review LIKE '%good';
+
+SELECT username_reviewer AS Reviewer
+FROM elvis_film_reviews
+WHERE review LIKE '%bad';
+
+SELECT COUNT(username_reviewer)
+FROM elvis_film_reviews
+WHERE review LIKE '%good';
+
+SELECT COUNT(username_reviewer)
+FROM elvis_film_reviews
+WHERE review LIKE '%bad';
