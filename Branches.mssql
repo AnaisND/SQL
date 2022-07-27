@@ -34,13 +34,53 @@ INSERT INTO emp VALUES(8, "Fiona", "William", "1998-02-14", 1001, "F", 5000);
 INSERT INTO emp VALUES(9, "Matt", "Johnson", "1992-12-04", 1000, "M", 4000);
 
 
-WITH CTE_emp AS (
-  SELECT
-    emp_id,
-    f_name AS First_Name,
-    l_name AS Last_Name,
-    COUNT(sex) OVER PARTITION BY sex AS Gender,
-    AVG(salary) OVER PARTITION BY sex AS Average_Salary
-)
+SELECT * FROM job;
 
-SELECT Average_Salary FROM CTE_emp;
+
+
+SELECT
+  emp_id,
+  f_name AS First_Name,
+  l_name AS Last_Name,
+  TIMESTAMPDIFF(YEAR, birthday, "2022-07-01") AS Ages,
+  sex,
+  job_id,
+  salary
+FROM emp;
+
+
+SELECT
+  AVG(salary) AS Average_Salary_Women FROM emp
+  WHERE sex LIKE '%F%';
+  
+SELECT
+  AVG(salary) AS Average_Salary_Men FROM emp
+  WHERE sex LIKE '%M%';
+  
+
+
+SELECT
+  AVG(salary) AS Average_Salary_Young_Employees FROM emp
+  WHERE birthday > "1993-01-01";
+  
+SELECT
+  AVG(salary) AS Average_Salary_Old_Employees FROM emp
+  WHERE birthday < "1993-01-01";
+  
+  
+
+SELECT
+  AVG(salary) AS Average_Salary_Young_Women FROM emp
+  WHERE birthday > "1993-01-01" AND sex LIKE '%F%';
+  
+SELECT
+  AVG(salary) AS Average_Salary_Young_Men FROM emp
+  WHERE birthday > "1993-01-01" AND sex LIKE '%M%';
+  
+SELECT
+  AVG(salary) AS Average_Salary_Old_Women FROM emp
+  WHERE birthday < "1993-01-01" AND sex LIKE '%F%';  
+  
+SELECT
+  AVG(salary) AS Average_Salary_Old_Men FROM emp
+  WHERE birthday < "1993-01-01" AND sex LIKE '%M%';
