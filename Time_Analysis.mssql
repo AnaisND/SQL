@@ -1,0 +1,67 @@
+CREATE TABLE orders (
+  ID INT,
+  order_ID VARCHAR(30),
+  order_date DATE,
+  ship_date DATE,
+  customer_initials VARCHAR(10),
+  country VARCHAR(30),
+  profit INT,
+  PRIMARY KEY(ID)
+);
+
+INSERT INTO orders VALUES(0,"RO-898", "2022-06-26", "2022-06-30", "AS", "Romania", 30);
+INSERT INTO orders VALUES(1, "SP-037", "2022-06-01", "2022-06-12", "REJ", "Spain", 200);
+INSERT INTO orders VALUES(2, "FR-324", "2022-06-04", "2022-06-17", "LRD", "France", -180);
+INSERT INTO orders VALUES(3, "GER-343", "2022-06-24", "2022-07-01", "HWTD", "Germany", 450);
+INSERT INTO orders VALUES(4, "NET-420", "2022-06-20", "2022-06-30", "UGT", "The Netherlands", 200);
+INSERT INTO orders VALUES(5, "BU-734", "2022-07-01", "2022-07-07", "FG", "Bulgaria", -400);
+INSERT INTO orders VALUES(6,"FR-857", "2022-06-15", "2022-06-28", "JPG", "France", 50);
+INSERT INTO orders VALUES(7, "GER-643", "2022-06-25", "2022-07-01", "FV", "Germany", 350);
+INSERT INTO orders VALUES(8, "SP-092", "2022-07-02", "2022-07-05", "PP", "Spain", -250);
+INSERT INTO orders VALUES(9, "FR-253", "2022-06-20", "2022-06-30", "HWTD", "Germany", 260);
+
+--Basic table information + finding out the shipping time for each order and comparing each profit to the next profit. the 
+
+SELECT
+  ID,
+  order_ID,
+  customer_initials,
+  country,
+  DATEDIFF(ship_date, order_date)+1 AS Shipping_Time,
+  profit AS Profit,
+  LEAD(profit) OVER(ORDER BY ID) AS Next_Profit
+FROM orders;
+  
+--Finding out how many orders where made in June and how many in July of 2022.  
+  
+SELECT COUNT(order_ID) AS June_Orders
+  FROM orders 
+  WHERE order_date < "2022-07-01";
+  
+SELECT COUNT(order_ID) AS July_Orders
+  FROM orders 
+  WHERE order_date > "2022-06-30";
+  
+--Finding out all of the profits made in June and July and ordering them by shipping time.  
+  
+SELECT
+    profit as June_Profits
+    FROM orders
+    WHERE order_date < "2022-07-01"
+    ORDER BY DATEDIFF(ship_date, order_date)+1;
+    
+SELECT
+    profit as July_Profits
+    FROM orders
+    WHERE order_date > "2022-06-30"
+    ORDER BY DATEDIFF(ship_date, order_date)+1;
+    
+--Finding out the total profit for June and July.    
+    
+SELECT SUM(profit) AS June_Total_Profit
+  FROM orders 
+  WHERE order_date < "2022-07-01";
+  
+SELECT SUM(profit) AS July_Total_Profit
+  FROM orders 
+  WHERE order_date > "2022-06-30";
