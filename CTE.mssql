@@ -1,0 +1,46 @@
+CREATE TABLE job (
+  job_id INT,
+  job_name VARCHAR(50),
+  PRIMARY KEY(job_id)
+);
+
+CREATE TABLE emp (
+  emp_id INT,
+  f_name VARCHAR(20),
+  l_name VARCHAR(20),
+  birthday DATE,
+  job_id INT,
+  sex VARCHAR(1),
+  salary INT,
+  PRIMARY KEY(emp_id),
+  FOREIGN KEY (job_id) REFERENCES job(job_id)
+);
+
+INSERT INTO job VALUES(1000, "Data Analyst");
+INSERT INTO job VALUES(1001, "Data Scientist");
+INSERT INTO job VALUES(1002, "Computer Science Engineer");
+INSERT INTO job VALUES(1003, "Database Architect");
+INSERT INTO job VALUES(1004, "App Tester");
+
+INSERT INTO emp VALUES(0,"Valerie", "Solanas", "1997-01-30", 1004, "F", 2000);
+INSERT INTO emp VALUES(1, "Tom", "Austin", "1980-04-25", 1002, "M", 6000);
+INSERT INTO emp VALUES(2, "Jane", "Plath", "1987-09-17", 1003, "F", 10000);
+INSERT INTO emp VALUES(3, "Louis", "Brown", "2000-03-30", 1004, "M", 2000);
+INSERT INTO emp VALUES(4, "Charlie", "Silvester", "1990-06-24", 1000, "F", 4000);
+INSERT INTO emp VALUES(5, "Daisy", "Drew", "1994-05-30", 1001, "F", 5000);
+INSERT INTO emp VALUES(6, "Mike", "Grant", "1982-04-14", 1003, "M", 10000);
+INSERT INTO emp VALUES(7, "May", "Smith", "1999-05-28", 1002, "F", 6000);
+INSERT INTO emp VALUES(8, "Fiona", "William", "1998-02-14", 1001, "F", 5000);
+INSERT INTO emp VALUES(9, "Matt", "Johnson", "1992-12-04", 1000, "M", 4000);
+
+
+WITH CTE_emp AS (
+  SELECT
+    emp_id,
+    f_name AS First_Name,
+    l_name AS Last_Name,
+    COUNT(sex) OVER PARTITION BY sex AS Gender,
+    AVG(salary) OVER PARTITION BY sex AS Average_Salary
+)
+
+SELECT Average_Salary FROM CTE_emp;
