@@ -17,23 +17,35 @@ INSERT INTO elvis_film_reviews VALUES(7, "Matthew Pejkovic", "2022-07-24", "Butl
 INSERT INTO elvis_film_reviews VALUES(8, "Marie Asner", "2022-07-21", "I am sure when Oscar nomination time comes, there will be nominations here for Austin Butler and Tom Hanks and the soundtrack.");
 INSERT INTO elvis_film_reviews VALUES(9, "George Elkind", "2022-07-21", "Elvis manifests all its action as inevitable, a remembered history that seems to have never breathed as living present: a most unquestioning sort of remembrance.");
 
+--Basic table display.
+
 SELECT * FROM elvis_film_reviews;
---Queries performed in order to do a Sentiment Analysis on this inserted data from rottentomatoes.com:
 
---Find all the reviewers that left positive/negative reviews +count them.
+--Finding out who are the positive and the negative reviwers.
 
-SELECT username_reviewer AS Reviewer
+SELECT username_reviewer AS Positive_Reviewer
 FROM elvis_film_reviews
-WHERE review LIKE '%good';
+WHERE review LIKE '%good%';
 
-SELECT username_reviewer AS Reviewer
+SELECT username_reviewer AS Negative_Reviewer
 FROM elvis_film_reviews
-WHERE review LIKE '%bad';
+WHERE review LIKE '%bad%';
 
-SELECT COUNT(username_reviewer)
-FROM elvis_film_reviews
-WHERE review LIKE '%good';
+--Finding out how many positive or negative reviews are there.
 
-SELECT COUNT(username_reviewer)
+SELECT COUNT(username_reviewer) AS Positive_Reviews
 FROM elvis_film_reviews
-WHERE review LIKE '%bad';
+WHERE review LIKE '%good%';
+
+SELECT COUNT(username_reviewer) AS Negative_Reviews
+FROM elvis_film_reviews
+WHERE review LIKE '%bad%';
+
+--Finding out how many agnostic reviews are there.
+
+SELECT
+  (SELECT COUNT(username_reviewer) FROM elvis_film_reviews)
+  - 
+  (SELECT COUNT(username_reviewer) FROM elvis_film_reviews WHERE review LIKE '%good%' OR review LIKE '%bad%')
+  - 1
+  AS Agnostic_Reviews;
