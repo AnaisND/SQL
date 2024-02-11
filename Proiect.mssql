@@ -1,0 +1,258 @@
+CREATE TABLE Specializare (
+    ID_specializare VARCHAR(10) PRIMARY KEY,
+    nume_specializare VARCHAR(50) NOT NULL
+);
+
+
+CREATE TABLE Profesori (
+    ID_profesor NUMBER(4) PRIMARY KEY,
+    nume_profesor VARCHAR(60) NOT NULL,
+    ID_specializare VARCHAR(10),
+    FOREIGN KEY (ID_specializare) REFERENCES Specializare(ID_specializare)
+);
+
+ALTER TABLE Profesori ADD email VARCHAR(30);
+ALTER TABLE Profesori DROP COLUMN email;
+
+CREATE TABLE Studenti (
+    ID_student NUMBER(6) PRIMARY KEY,
+    nume_student VARCHAR(30) NOT NULL,
+    prenume_student VARCHAR(30) NOT NULL,
+    serie CHAR(1),
+    grupa CHAR(4),
+    ID_profesor NUMBER(4),
+    ID_specializare VARCHAR(10),
+    FOREIGN KEY (ID_profesor) REFERENCES Profesori(ID_profesor),
+    FOREIGN KEY (ID_specializare) REFERENCES Specializare(ID_specializare)
+);
+
+ALTER TABLE Studenti ADD varsta NUMBER(2);
+/*ALTER TABLE Studenti DROP COLUMN varsta;*/
+
+CREATE TABLE Comisie_evaluare(
+    ID_comisie NUMBER(2),
+    data_evaluarii DATE NOT NULL,
+    ID_profesor NUMBER(4),
+    ID_student NUMBER(6),
+    FOREIGN KEY (ID_profesor) REFERENCES Profesori(ID_profesor),
+    FOREIGN KEY (ID_student) REFERENCES Studenti(ID_student)
+);
+
+/*ALTER TABLE Comisie ADD CONSTRAINT ID_profesor_student_PK  PRIMARY KEY (ID_profesor, ID_student);*/
+
+ALTER TABLE Comisie_evaluare RENAME TO Comisie;
+
+INSERT INTO Specializare VALUES ("WEB-DEV", "Website Development");
+INSERT INTO Specializare VALUES ("DB", "Data Base");
+INSERT INTO Specializare VALUES ("WEB-SEC", "Website Security");
+INSERT INTO Specializare VALUES ("SYS-ARCH", "System Architecture");
+INSERT INTO Specializare VALUES ("BANK-APP", "Banking App");
+INSERT INTO Specializare VALUES ("BANK-SEC", "");
+INSERT INTO Specializare VALUES ("ODB", "Oracle Data Base");
+INSERT INTO Specializare VALUES ("SYS-W", "System Wellness Check");
+INSERT INTO Specializare VALUES ("BANK-SYS", "Banking System");
+INSERT INTO Specializare VALUES ("CL-SEC", "Cloud Security");
+SELECT * FROM Specializare;
+
+INSERT INTO Profesori VALUES (1000, "Ana-Maria Ranta", "WEB-DEV");
+INSERT INTO Profesori VALUES (1001, "Carmen Moise", "DB");
+INSERT INTO Profesori VALUES (1002, "Alexandru Ion Vrancu", "WEB-SEC");
+INSERT INTO Profesori VALUES (1003, "Andreea Mihaiu", "SYS-ARCH");
+INSERT INTO Profesori VALUES (1004, "Matei Avram", "BANK-APP");
+INSERT INTO Profesori VALUES (1005, "Denisa Dorogea", "BANK-SEC");
+INSERT INTO Profesori VALUES (1006, "Corina Neacsu", "ODB");
+INSERT INTO Profesori VALUES (1007, "Iosif Dalu", "SYS-T");
+INSERT INTO Profesori VALUES (1008, "Maria Moisescu", "BANK-SYS");
+INSERT INTO Profesori VALUES (1009, "Daria Popa", "CL-SEC");
+INSERT INTO Profesori VALUES (1010, "Cristian Guran", "WEB-DEV");
+INSERT INTO Profesori VALUES (1011, "Codrut Banculescu", "WEB-DEV");
+SELECT * FROM Profesori;
+
+INSERT INTO Studenti VALUES (10, "Maria", "Ionescu", "D", 1051, 1000, "WEB-DEV", 21);
+INSERT INTO Studenti VALUES (11, "Ana", "Popescu", "D", 1051, 1010, "WEB-DEV", 22);
+INSERT INTO Studenti VALUES (12, "Matei", "Neacsu", "D", 1052, 1001, "DB", 22);
+INSERT INTO Studenti VALUES (13, "Alexandra", "Balasoiu", "D", 1052, 1001, "DB", 22);
+INSERT INTO Studenti VALUES (14, "Ionut", "Mihalcea", "E", 1053, 1002, "WEB-SEC", 23);
+INSERT INTO Studenti VALUES (15, "Mihai", "Banculescu", "E", 1053, 1002, "WEB-SEC", 23);
+INSERT INTO Studenti VALUES (16, "Vlad", "Petrescu", "E", 1054, 1003, "SYS-ARCH", 23);
+INSERT INTO Studenti VALUES (17, "Andrei", "Florescu", "E", 1054, 1003, "SYS-ARCH", 23);
+INSERT INTO Studenti VALUES (18, "Alexandru", "Dalu", "F", 1055, 1004, "BANK-APP", 23);
+INSERT INTO Studenti VALUES (19, "Denisa", "Pastaie", "F", 1055, 1004, "BANK-APP", 45);
+INSERT INTO Studenti VALUES (20, "Giulia", "Tali", "F", 1056, 1005, "BANK-SEC", 25);
+INSERT INTO Studenti VALUES (21, "Cristina", "Vladescu", "F", 1056, 1006, "ODB", 23);
+INSERT INTO Studenti VALUES (22, "Vlad", "Cosmin", "G", 1057, 1007, "SYS-T", 23);
+INSERT INTO Studenti VALUES (23, "Marian", "Cristescu", "G", 1057, 1008, "BANK-SYS", 22);
+INSERT INTO Studenti VALUES (24, "Lucia", "Caradoma", "G", 1058, 1009, "CL-SEC", 21);
+INSERT INTO Studenti VALUES (25, "Lidia", "Parva", "G", 1058, 1009, "CL-SEC", 22);
+INSERT INTO Studenti VALUES (26, "Veronica", "Dominic", "H", 1059, 1004, "BANK-APP", 22);
+INSERT INTO Studenti VALUES (27, "Vasile", "Vulcan", "H", 1059, 1008, "BANK-SYS", 23);
+INSERT INTO Studenti VALUES (28, "Cristian", "Ispirescu", "H", 1060, 1011, "WEB-DEV", 23);
+INSERT INTO Studenti VALUES (29, "Andrei", "Ion", "H", 1060, 1006, "ODB", 23);
+SELECT * FROM Studenti;
+
+INSERT INTO Comisie VALUES (90, "01-07-2022", 1000, 10);
+INSERT INTO Comisie VALUES (90, "01-07-2022", 1000, 11);
+INSERT INTO Comisie VALUES (90, "01-07-2022", 1011, 28);
+INSERT INTO Comisie VALUES (91, "08-07-2022", 1001, 12);
+INSERT INTO Comisie VALUES (91, "08-07-2022", 1001, 13);
+INSERT INTO Comisie VALUES (92, "16-07-2022", 1002, 14);
+INSERT INTO Comisie VALUES (92, "16-07-2022", 1002, 15);
+INSERT INTO Comisie VALUES (93, "23-07-2022", 1003, 16);
+INSERT INTO Comisie VALUES (93, "23-07-2022", 1003, 17);
+INSERT INTO Comisie VALUES (94, "30-07-2022", 1004, 18);
+INSERT INTO Comisie VALUES (94, "30-07-2022", 1004, 19);
+INSERT INTO Comisie VALUES (95, "01-08-2022", 1005, 20);
+INSERT INTO Comisie VALUES (96, "06-08-2022", 1006, 21);
+INSERT INTO Comisie VALUES (96, "06-08-2022", 1007, 22);
+INSERT INTO Comisie VALUES (97, "08-08-2022", 1008, 23);
+INSERT INTO Comisie VALUES (97, "08-08-2022", 1004, 26);
+INSERT INTO Comisie VALUES (98, "13-08-2022", 1009, 24);
+INSERT INTO Comisie VALUES (98, "13-08-2022", 1009, 25);
+INSERT INTO Comisie VALUES (99, "20-08-2022", 1008, 27);
+INSERT INTO Comisie VALUES (99, "20-08-2022", 1006, 29);
+SELECT * FROM Comisie;
+/*DROP TABLE Comisie;*/
+
+#Voi crea un tabel pe baza tabelei Studenti fara inregistrarile initiale unde vor fi inregistrati doar studentii care au ca ID_specializare "WEB-DEV":
+CREATE TABLE Website_Developers AS SELECT * FROM Studenti WHERE 2=3;
+INSERT INTO Website_Developers SELECT * FROM Studenti WHERE ID_specializare LIKE "%WEB-DEV%";
+SELECT * FROM Website_Developers;
+
+#Voi schimba profesorul celor care au evaluarea programata pe 8 iulie cu profesorul cu ID-ul 1011:
+UPDATE Comisie SET ID_profesor = 1011 WHERE data_evaluarii = "08-07-2022";
+
+#Voi actualiza grupa studentilor din tabelul Website_Developers cu grupa studentului cu ID-ul 10:
+UPDATE Website_Developers SET grupa = (SELECT grupa FROM Studenti WHERE ID_student = 10);
+SELECT * FROM Website_Developers;
+
+#Voi actualiza tabela Website_Developers astfel incat toti studentii din tabela Website_Developers sa aiba grupele egale cu cei din tabela Studenti, iar pentru cei care nu sunt in tabela Website_Developers sa se adauge valorile din tabela sursa:
+MERGE INTO Website_Developers USING Studenti ON (Website_Developers.ID_student = Studenti.ID_student)
+WHEN MATCHED THEN
+UPDATE SET Website_Developers.grupa=Studenti.grupa
+WHEN NOT MATCHED THEN
+INSERT  (ID_student, nume_student, prenume_student, serie, grupa, ID_profesor, ID_specializare, varsta) VALUES (Studenti.ID_student ,Studenti.nume_student ,Studenti.prenume_student ,Studenti.serie ,Studenti.grupa ,Studenti.ID_profesor ,Studenti.ID_specializare, Studenti.varsta);
+SELECT * FROM Website_Developers;
+
+#Voi selecta toate ID-urile comisiilor care au data evaluarii dupa 8 iulie:
+SELECT ID_comisie FROM Comisie WHERE data_evaluarii > "08-07-2022";
+#SAU SELECT ID_comisie FROM Comisie WHERE data_evaluarii > TO_DATE("08-07-2022", "DD-MM-YYYY");
+
+#Voi selecta numele si prenumele studentilor si numele profesorilor si voi realiza jonctiunea dintre cele 2 tabele pe baza specializarii:
+SELECT S.nume_student, S.prenume_student, P.nume_profesor FROM Studenti S, Profesori P
+WHERE S.ID_specializare = P.ID_specializare;
+
+#Voi selecta numele si prenumele studentilor care nu au ca specializare "WEB_DEV" si care sunt mai tineri decat oricare din studentii care au ca specializare WEB-DEV:
+SELECT nume_student ,prenume_student FROM Studenti
+WHERE varsta < ANY (SELECT varsta FROM Studenti WHERE ID_specializare LIKE "%WEB-DEV%")
+AND ID_specializare NOT LIKE "%WEB-DEV%";
+
+#Voi selecta numele si prenumele studentilor care nu au ca specializare "WEB_DEV" si care sunt mai tineri decat fiecare din studentii care au ca specializare WEB-DEV:
+SELECT nume_student ,prenume_student FROM Studenti
+WHERE varsta < ALL (SELECT varsta FROM Studenti WHERE ID_specializare LIKE "%WEB-DEV%")
+AND ID_specializare NOT LIKE "%WEB-DEV%";
+
+#Voi selecta ID-ul comisiilor care evalueaza studentii cu ID-ul specializarii "DB" care sunt evaluati dupa data de 1 iulie:
+SELECT C.ID_comisie FROM Comisie C, Studenti S WHERE C.ID_student = S.ID_student AND S.ID_specializare LIKE "%DB%" AND C.data_evaluarii > "01-07-2022";
+
+#Voi selecta numele si prenumele studentilor chiar daca nu au profesori coordonatori:
+INSERT INTO Studenti VALUES (30, "Anca", "Popescu", "D", 1051, NULL , "WEB-DEV", 22);
+INSERT INTO Studenti VALUES (31, "Ioana", "Cristian", "D", 1051, NULL , "DB", 24);
+SELECT S.nume_student, S.prenume_student FROM Studenti S, Profesori P WHERE S.ID_profesor = P.ID_profesor(+); #Se realizeaza jonctiunea externa la dreapta.*/
+
+#Voi selecta toti studentii care au acelasi ID al specializarii cu studentul care are ID-ul personal 10:
+SELECT * FROM Studenti WHERE ID_specializare = (SELECT ID_specializare WHERE ID_student = 10);
+
+#Voi sterge si recupera tabela Profesori:
+DELETE FROM Profesori;
+ROLLBACK;
+
+#Voi afisa cu litera mare apoi mica numele profesorilor care au ID-ul > 1005:
+SELECT UPPER(nume_profesor) FROM Profesori WHERE ID_profesor > 1005;
+SELECT LOWER(nume_profesor) FROM Profesori WHERE ID_profesor > 1005;
+
+#Voi afisa numele studentului impreuna cu seria si grupa din care face parte (concatanare):
+SELECT "Studentul " || nume_student || " apartine seriei  " || serie || " si grupei " || grupa ||"." FROM Studenti;
+
+#Voi afisa numele specializarilor concatanat cu ID-ul acestora impreuna cu lungimea acestora:
+SELECT CONCAT(nume_specializare, ID_specializare), LENGTH(nume_specializare) FROM Specializare;
+
+#Voi afisa numarul de luni intre data curenta si data fiecarei evaluari:
+SELECT ROUND(MONTHS_BETWEEN(SYSDATE, data_evaluarii)) FROM Comisie_evaluare;
+
+#Voi afisa doar ID-ul comisiilor care au data evaluarii la 2 luni distanta de data curenta (daca exista):
+SELECT ID_comisie FROM Comisie_evaluare WHERE ROUND(MONTHS_BETWEEN(SYSDATE, data_evaluarii)) = 2;
+
+#Voi afisa doar ID-ul comisiilor care au data evaluarii intre iulie si august (adica toate):
+SELECT ID_comisie FROM Comisie_evaluare WHERE EXTRACT(MONTH FROM data_evaluarii) IN (7,8);
+
+#Voi afisa NULL daca varsta unui student = 22 de ani:
+SELECT nume_student, NULLIF(varsta, 22) Rezultat FROM Studenti;
+
+#Voi afisa varstata medie, minima si maxima a studentilor:
+SELECT ROUND(AVG(varsta)), MIN(varsta), MAX(varsta) FROM Studenti;
+
+#Voi afisa nr studentilor care au ales ca specializare "Website Development":
+SELECT COUNT(nume_student) FROM Studenti WHERE ID_specializare LIKE "%WEB-DEV%";
+
+#Voi grupa studentii dupa nume si ordona dupa varsta:
+SELECT nume_student FROM Studenti GROUP BY nume_student ORDER BY varsta ASC;
+
+#Voi realiza jonctiunea externa intre Profesori si Studenti in care se afiseaza toate inregistrarile Profesorilor si inregistrarile comune dintre Studenti si Profesori:
+SELECT * FROM Profesori, Studenti WHERE Profesori.ID_profesor=Studenti.ID_student(+);
+
+#Folosire DECODE in tabela Specializare:
+SELECT nume_specializare,
+DECODE(ID_specializare, "WEB-DEV", "Website Development",
+                        "DB", "Data Base",
+                        "WEB-SEC", "Website Security",
+                        "NULL")
+FROM Specializare;
+
+#Folosirea DECODE in tabela Studenti:
+SELECT ID_profesor,
+DECODE(ID_student, 10, 1000,
+                   11, 1001,
+                   12, 1002,
+                   1003)
+FROM Studenti;
+
+#Folosirea CASE in tabela Studenti:
+SELECT varsta
+CASE
+    WHEN varsta > ROUND(AVG(varsta)) THEN "Varsta mai mare decat cea medie."
+    WHEN varsta < ROUND(AVG(varsta)) THEN "Varsta mai mica decat cea medie."
+    ELSE "Varsta egala cu cea medie."
+END
+FROM Studenti;
+
+#Voi face uniunea dintre anumite coloane din tabela Profesori si toate coloanele din tabela Specializare:
+SELECT ID_profesor, nume_profesor FROM Profesori
+UNION
+SELECT * FROM Specializare;
+
+#Voi face intersectia dintre Profesori si Studenti pe baza ID-ului specializarii:
+SELECT ID_specializare FROM Profesori
+INTERSECT
+SELECT ID_specializare FROM Studenti;
+
+#Voi alege specializarile Profesorilor care sa nu includa Website Development daca si numai daca macar un student are ca specializare Website Development, altfel se vor afisa toate:
+SELECT ID_specializare FROM Profesori
+MINUS
+SELECT ID_specializare FROM Studenti WHERE ID_specializare LIKE "%WEB-DEV%";
+
+#Voi crea un index pentru prenumele studentilor:
+CREATE INDEX Index_prenume_student
+ON Studenti(prenume_student);
+DROP INDEX Index_prenume_student;
+
+#Voi crea un index unic pentru ID-ul specializarilor:
+CREATE UNIQUE INDEX Index_ID_specializare
+ON Specializare(ID_specializare);
+DROP INDEX Index_ID_specializare;
+
+#Voi crea o secventa care numara de la 1 la 20:
+CREATE SEQUENCE Secventa
+START WITH 1
+AUTO_INCREMENT BY 1
+maxvalue 20
+CYCLE;
